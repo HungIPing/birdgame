@@ -152,6 +152,7 @@ public class BirdGame extends JPanel {
 		JFrame frame=new JFrame();
 		BirdGame game=new BirdGame();
 		frame.add(game);
+		frame.setTitle("Game");
 		frame.setSize(800,570);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
