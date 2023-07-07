@@ -22,21 +22,21 @@ public class Column {
 	
 	public Column(int n) throws Exception
 	{
-		image=new ImageIcon("picture/pillar.png").getImage();
+		image=ImageIO.read(getClass().getResource("/pillar.png"));
 		width=image.getWidth(null);
 		height=image.getHeight(null);
 		gap=190;
-		distance=350;
+		distance=400;
 		x=700+(n-1)*distance;
 		y=random.nextInt(218)+132;
 	}
 	
 	public void step()
 	{
-		x-=2;
-		if(x<= -width/2)
+		x-=3;
+		if(x<= 0)
 		{
-			x=650;
+			x=800;
 			y=random.nextInt(450);
 		}
 	}

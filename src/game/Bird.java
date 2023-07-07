@@ -24,7 +24,7 @@ public class Bird{
 
     public Bird() throws Exception {
         // 初始化小鸟的属性
-        image = new ImageIcon("picture/bird.png").getImage();
+        image = ImageIO.read(getClass().getResource("/bird.png"));
         width = image.getWidth(null);
         height = image.getHeight(null);
         x = 350;
@@ -62,21 +62,41 @@ public class Bird{
 
     // 检测小鸟是否碰撞到地面
     public boolean hit(Ground ground) {
-        boolean hit = y + size / 2 > ground.y;
+        boolean hit = y + size/2 > ground.y;
         if (hit) {
-            y = ground.y - size / 2;
+            y = ground.y - size/2;
         }
         return hit;
     }
 
     // 检测小鸟是否撞到柱子
     public boolean hit(Column column) {
-        if (x > column.x - column.width / 2 - size / 2 && x < column.x + column.width / 2 + size / 2) {
-            if (y > column.y - column.gap / 2 + size / 2 && y < column.y + column.gap / 2 - size / 2) {
-                return false;
+        // 检测是否在柱子范围内
+        if (x > column.x - column.width/2 - size/2 && x < column.x + column.width/2 + size/2) {
+            if (y > column.y - column.gap/2 + size/2 && y < column.y + column.gap/2 - size/2) {
+                return false;  // 在柱子范围内且没有发生碰撞
             }
-            return true;
+            return true;  // 在柱子范围内且发生碰撞
         }
-        return false;
+        return false;  // 不在柱子范围内
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

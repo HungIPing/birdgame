@@ -18,7 +18,7 @@ public class BirdGame extends JPanel {
 	Image startImage;//开始图片
 	Image overImage;//游戏结束图片
 	Ground ground;//地面
-	Column column1,column2,column3;//两根柱子
+	Column column1,column2;//两根柱子
 	Bird bird;//小鸟
 	int score;//游戏分数
 	int state;//游戏状态
@@ -29,12 +29,12 @@ public class BirdGame extends JPanel {
 	
 	
 	
-	public BirdGame() throws Exception
+	public BirdGame()
 	{
-		
-		background = new ImageIcon("picture/background2.png").getImage();
-		startImage = new ImageIcon("picture/start1.png").getImage();
-		overImage=new ImageIcon("picture\\game over1.png").getImage();
+		try {
+		background = ImageIO.read(getClass().getResource("/background2.png"));
+		startImage = ImageIO.read(getClass().getResource("/start1.png"));
+		overImage=ImageIO.read(getClass().getResource("/game over1.png"));
 		//初始化地面、柱子、小鸟、分号、状态
 		ground=new Ground();
 		column1=new Column(1);
@@ -43,11 +43,17 @@ public class BirdGame extends JPanel {
 		bird=new Bird();
 		score=0;
 		state=0;
+		System.out.println("ok");
+		}catch(Exception e) {
+			System.out.println("got it");
+		}
 		
 		
 	}
 	
-	public void paint(Graphics g) {
+	public void paintComponent(Graphics g) {
+		
+		
 	    // 绘制背景
 	    g.drawImage(background, 0, 0, null);
 
@@ -63,19 +69,11 @@ public class BirdGame extends JPanel {
 
 	    g.drawImage(bird.image, bird.x - bird.width / 2, bird.y - bird.height / 2, null);
 	   
-	    // 绘制分数
-	    Font f = new Font(Font.SANS_SERIF, Font.BOLD, 40);
-	    g.setFont(f);
-	    g.setColor(Color.blue);
-	    g.drawString("" + score, 40, 60);
-	    
-
 
 	    // 绘制开始和结束界面
 	    switch (state) {
 	        case START:
 	            // 绘制开始界面前绘制背景
-	            g.drawImage(background, 0, 0, null);
 	            g.drawImage(startImage, 0, 0, null);
 	            break;
 	        case GAME_OVER:
@@ -122,13 +120,10 @@ public class BirdGame extends JPanel {
 	        switch (state) {
 	            case START:
 	                bird.fly();
-	                ground.step();
 	                break;
 	            case RUNNING:
-	                ground.step();
 	                column1.step();
 	                column2.step();
-//	                bird.fly();
 	                bird.step();
 	                score++;
 	                // 检测是否碰撞
@@ -156,8 +151,8 @@ public class BirdGame extends JPanel {
 		frame.setSize(800,570);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
 		frame.setResizable(false);
+		frame.setVisible(true);
 		game.action();
 		
 	}
