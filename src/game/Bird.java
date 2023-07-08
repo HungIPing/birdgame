@@ -57,11 +57,11 @@ public class Bird {
 
 	// 检测小鸟是否碰撞到地面
 	public boolean hit(Ground ground) {
-		boolean hit = y + size / 2 > ground.y;
-		if (hit) {
-			y = ground.y - size / 2;
+		
+		if (y + size / 2 > ground.y-size/2) {
+			return true;
 		}
-		return hit;
+		return false;
 	}
 
 	// 检测小鸟是否撞到柱子

@@ -20,8 +20,9 @@ public class BirdGame extends JPanel {
 	Ground ground;//地面
 	Column column1,column2;//两根柱子
 	Bird bird;//小鸟
-	int score;//游戏分数
+	JFrame frame;
 	int state;//游戏状态
+	int score;
 	//状态常量
 	public static final int START=0;//开始
 	public static final int RUNNING=1;//运行
@@ -29,9 +30,10 @@ public class BirdGame extends JPanel {
 	
 	
 	
-	public BirdGame()
+	
+	public BirdGame() throws Exception
 	{
-		try {
+		
 		background = ImageIO.read(getClass().getResource("/background2.png"));
 		startImage = ImageIO.read(getClass().getResource("/start1.png"));
 		overImage=ImageIO.read(getClass().getResource("/game over1.png"));
@@ -41,15 +43,17 @@ public class BirdGame extends JPanel {
 		column2=new Column(2);
 		
 		bird=new Bird();
-		score=0;
 		state=0;
-		System.out.println("ok");
-		}catch(Exception e) {
-			System.out.println("got it");
+		score=0;
+		
+		frame = new JFrame();
+		
+		
+			
 		}
 		
 		
-	}
+	
 	
 	public void paintComponent(Graphics g) {
 		
@@ -68,7 +72,10 @@ public class BirdGame extends JPanel {
 	    
 
 	    g.drawImage(bird.image, bird.x - bird.width / 2, bird.y - bird.height / 2, null);
-	   
+	    
+	    g.setFont(new Font("Courier New", Font.BOLD, 25));
+	    g.setColor(Color.WHITE);
+	    g.drawString("Score: " + score, 20, 30);
 
 	    // 绘制开始和结束界面
 	    switch (state) {
@@ -91,9 +98,11 @@ public class BirdGame extends JPanel {
 	                    case START:
 	                        // 在开始前按下鼠标转为运行状态
 	                        state = RUNNING;
+	                        score= 0;
 	                        break;
 	                    case RUNNING:
 	                        // 在运行状态，按下鼠标小鸟向上飞行
+	                    	
 	                        bird.clickFly();
 	                        break;
 	                    case GAME_OVER:
@@ -101,7 +110,6 @@ public class BirdGame extends JPanel {
 	                        column1 = new Column(1);
 	                        column2 = new Column(2);
 	                        bird = new Bird();
-	                        score = 0;
 	                        state = START;
 	                        break;
 	                }
@@ -128,15 +136,22 @@ public class BirdGame extends JPanel {
 	                score++;
 	                // 检测是否碰撞
 	                if (bird.hit(ground) || bird.hit(column1) || bird.hit(column2)) {
-	                    state = GAME_OVER;
+	                	JOptionPane.showMessageDialog(frame, "Game Over~ Final Score: " + score);
+	                	state = GAME_OVER;
+	                	break;
 	                }
 	                
 	                break;
 	        }
+	        
+	        
+
+                
 			//休眠1000/60毫秒
 			Thread.sleep(1000/60);
 			repaint();
 		}
+	    
 	}
 	
 	//启动方法
@@ -153,7 +168,12 @@ public class BirdGame extends JPanel {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setVisible(true);
+		
+		
+	
 		game.action();
+		
+
 		
 	}
 	
